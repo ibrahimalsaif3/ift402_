@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Checkout Page</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+    <script src="checkout.js"></script>
+</head>
+<body>
+	<div class="container">
+		<h1>Checkout</h1>
+		<table>
+			<thead>
+				<tr> 
+					<th>Product</th>
+					<th>Quantity</th>
+					<th>Price</th>
+				</tr>
+			</thead>
+			<tbody id="cart-items">
+			</tbody>
+			<tfoot>
+				<tr>
+					<td colspan="2">Total:</td>
+					<td id="cart-total">$0.00</td>
+				</tr>
+			</tfoot>
+		</table>
+		<a href="payment.html"><button id="payment-button">Checkout</button></a>
+	</div>
+
+	<script>
+        const cartItems = JSON.parse(localStorage.getItem('cartItems'));
+        const cartItemsTable = document.getElementById('cart-items');
+      
+        if (cartItems && cartItems.length > 0) {
+          cartItems.forEach(item => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+              <td>${item.name}</td>
+              <td>${item.quantity}</td>
+              <td>${item.price}</td>
+            `;
+            cartItemsTable.appendChild(tr);
+            // Add the following code to display selected dishes
+            const selectedDishes = item.selectedDishes.join(', ');
+            const trSelectedDishes = document.createElement('tr');
+            trSelectedDishes.innerHTML = `
+              <td colspan="3">${selectedDishes}</td>
+            `;
+            cartItemsTable.appendChild(trSelectedDishes);
+          });
+        } else {
+          const tr = document.createElement('tr');
+          tr.innerHTML = '<td colspan="3">No items in cart</td>';
+          cartItemsTable.appendChild(tr);
+        }
+      
+        const total = parseFloat(localStorage.getItem('cartTotal'));
+        document.getElementById('cart-total').textContent = `$${total.toFixed(2)}`;
+      </script>
+      
+
+</body>
+</html>
+

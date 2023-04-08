@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta charset="utf-8">
+        <title>Gino's Italian Restaurant</title>
+        <link rel="stylesheet" type="text/css" href="Untitled-2.css">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous"/>
+        <script type="text/javascript" src="calorie.js"></script>
+        <script src="cart.js"></script>
+
+    </head>
+    <body>
+        <header>
+            <a href="#" class="logo">Gino's Italian Restaurant<span>.</span></a>
+            <div class="toggle" onclick="toggleMenu();"></div>
+            <ul class="menu" id="myTopnav">
+                <li><a href="#home" onclick="toggleMenu();">Home</a></li>
+                <li><a href="#menu" onclick="toggleMenu();"> Menu</a></li>
+                <li><a href="#cart" onclick="toggleMenu();">Cart</a></li>
+                <li><a href="#popular" onclick="toggleMenu();">Popular</a></li>
+                <li><a href="#allergies" onclick="toggleMenu();">Allergies</a></li>
+                <li><a href="#about" onclick="toggleMenu();">About</a></li>
+                <li><a href="#gallery" onclick="toggleMenu();">Gallery</a></li>
+                <li><a href="#contact" onclick="toggleMenu();">Contact</a></li>
+                <li><a href="#signup" onclick="toggleMenu();">Sign Up</a></li>
+            </ul>
+        </header>
+
+        <section class="banner" id="home">
+            <div class="info">
+                <h2>For delicious food and great atmosphere<span>.</span></h2>
+                <h5>Available for delivery or pickup</h5>
+                <a href="#menu">Go to Menu <i class="fas fa-chevron-right"></i></a>
+            </div>
+            <img src="banner.jpg">
+        </section>
+
+      
+
+<!-- Add a data-price attribute to each menu item to store its price -->
+<section class="item_menu" id="menu">
+  <main>
+    <section id="starter-section">
+      <h2>Starters</h2>
+      <ul>
+        <li data-price="6.00">
+          <img class="menu-pic" src="bruschetta.jpg" alt="Bruschetta">
+          <h3>Bruschetta</h3>
+          <p>Toasted bread topped with diced tomatoes, basil, and olive oil.</p>
+          <p class="price">$6.00</p>
+          <button class="add-to-cart">Add to Cart</button>
+        </li>
+        <li data-price="8.00">
+          <img class="menu-pic" src="caprese-salad.jpg" alt="Caprese">
+          <h3>Caprese Salad</h3>
+          <p>Fresh mozzarella, tomatoes, basil, and balsamic glaze.</p>
+          <p class="price">$8.00</p>
+          <button class="add-to-cart">Add to Cart</button>
+        </li>
+      </ul>
+    </section>
+    <section id="pizza-section">
+      <h2>Pizzas</h2>
+      <ul>
+        <li data-price="12.00">
+          <img class="menu-pic" src="pizzamargheritatop.jpeg" alt="Marghertia">
+          <h3>Margherita Pizza</h3>
+          <p>Tomato sauce, mozzarella cheese, and basil.</p>
+          <p class="price">$12.00</p>
+          <button class="add-to-cart">Add to Cart</button>
+        </li>
+        <li data-price="14.00">
+          <img class="menu-pic" src="Pepperoni-Pizza.jpeg" alt="pepporoni">
+          <h3>Pepperoni Pizza</h3>
+          <p>Tomato sauce, mozzarella cheese, pepperoni, and basil.</p>
+          <p class="price">$14.00</p>
+          <button class="add-to-cart">Add to Cart</button>
+        </li>
+      </ul>
+    </section>
+    <section id="pasta-section">
+      <h2>Pastas</h2>
+      <ul>
+        <li data-price="15.00">
+          <img class="menu-pic" src="spaghetti-bolognese.jpeg" alt="sphagetti">
+          <h3>Spaghetti Bolognese</h3>
+          <p>Spaghetti pasta with meat sauce and grated parmesan cheese.</p>
+          <p class="price">$15.00</p>
+          <button class="add-to-cart">Add to Cart</button>
+        </li>
+        <li data-price="17.00">
+          <img class="menu-pic" src="Chicken-Fettuccine-Alfredo.jpeg" alt="Fettuccine">
+          <h3>Fettuccine Alfredo</h3>
+          <p>Fettuccine pasta with cream sauce and grated parmesan cheese.</p>
+          <p class="price">$17.00</p>
+          <button class="add-to-cart">Add to Cart</button>
+        </li>
+      </ul>
+    </section>
+    <section id="dessert-section">
+      <h2>Desserts</h2>
+      <ul>
+        <li>
+          <img class="menu-pic" src="tiramisu.jpeg" alt="tiramisu">
+          <h3>Tiramisu</h3>
+          <p>Classic Italian dessert made with espresso</p>
+          <p class="price">$7.00</p>
+          <button class="add-to-cart" data-name="Tiramisu" data-price="7.00">Add to Cart</button>
+        </li>
+        <li>
+          <img class="menu-pic" src="cannoli.jpeg" alt="cannoli">
+          <h3>Cannoli</h3>
+          <p>Fried pastry dough filled with sweet ricotta cheese and chocolate chips.</p>
+          <p class="price">$6.00</p>
+          <button class="add-to-cart" data-name="Cannoli" data-price="6.00">Add to Cart</button>
+        </li>
+      </ul>
+    </section>
+    
+    <div id="cart-total">
+      <h2>Cart</h2>
+      <ul id="cart-items"></ul>
+      <p>Total: <span id="total-price">$0.00</span></p>
+      <a href="checkout.html"><button id="checkout-button">Checkout</button></a>
+    </div>
+    
+    <script>
+      const buttons = document.querySelectorAll(".add-to-cart");
+    
+      buttons.forEach((button) => {
+        button.addEventListener("click", addToCart);
+      });
+    
+      function addToCart(event) {
+        const button = event.target;
+        const item = button.parentElement;
+        const name = item.querySelector("h3").textContent;
+        const price = item.querySelector(".price").textContent;
+        const itemData = {
+          name: name,
+          price: price,
+        };
+        addItemToCart(itemData);
+      }
+    
+      function addItemToCart(itemData) {
+        const cartItems = document.getElementById("cart-items");
+        const existingItem = cartItems.querySelector(
+          `[data-name="${itemData.name}"]`
+        );
+        if (existingItem) {
+          const quantity = existingItem.querySelector(".quantity");
+          quantity.textContent = parseInt(quantity.textContent) + 1;
+        } else {
+          const item = document.createElement("li");
+          item.dataset.name = itemData.name;
+          item.dataset.price = itemData.price;
+          item.innerHTML = `
+            <span class="item-name">${itemData.name}</span>
+            <span class="quantity">1</span>
+            <span class="item-price">${itemData.price}</span>
+            <button class="remove-item">X</button>
+          `;
+          cartItems.appendChild(item);
+        }
+        updateTotal();
+      }
+    
+      function updateTotal() {
+        const cartItems = document.getElementById("cart-items");
+        const items = cartItems.querySelectorAll("li");
+        let total = 0;
+        items.forEach((item) => {
+          const price = parseFloat(item.dataset.price.replace("$", ""));
+          const quantity = parseInt(item.querySelector(".quantity").textContent);
+          total += price * quantity;
+        });
+        document.getElementById("total-price").textContent = `$${total.toFixed(2)}`;
+      }
+    
+      const cart = document.getElementById("cart-total");
+      cart.addEventListener("click", removeItem);
+    
+      function removeItem(event) {
+        if (event.target.classList.contains("remove-item")) {
+          const button = event.target;
+          const item = button.parentElement;
+          item.remove();
+          updateTotal();
+        }
+      }
+    </script>
+    
+
+            
+             <section>         
+            <div class="card">
+                <div class="icon"><i class="fas fa-star"></i></div>
+                <h4>Organic Food</h4>
+                <h5>Lorem ipsum dolor sit amet, cosectetu booofa lorem so toe</h5>
+                <a href="#">View more</a> 
+            </div>
+
+            <div class="card">
+                <div class="icon"><i class="fas fa-peace"></i></div>
+                <h4>Nice experience</h4>
+                <h5>Lorem ipsum dolor sit amet, cosectetu booofa lorem so toe</h5>
+                <a href="#">View more</a> 
+            </div>
+
+            <div class="card">
+                <div class="icon"><i class="fas fa-heart"></i></div>
+                <h4>Friendly Staff</h4>
+                <h5>Lorem ipsum dolor sit amet, cosectetu booofa lorem so toe</h5>
+                <a href="#">View more</a> 
+            </div>
+        </section>
+
+        <section class="popular_items" id="popular">
+            <div class="info">
+                <h2>What's special today?</h2>
+                <h5>Today special and popular items <a href="#" class="link">View menu</a>.</h5>
+            </div>
+            <div class="itemBx">
+                <div class="box">
+                    <img src="Fettuccine.jpg">
+                    <div class="infoBx">
+                        <h4>Fettuccine Alfredo</h4>
+                        <p>Our Fettucine Alfredo consists of a homemade alfredo sauce that is made with simple ingredients -- butter, parmesan cheese, garlic, 
+                        heavy cream, and salt. It's a 5-ingredient alfredo sauce that is extremely delicious!</p>
+                        <h5>$15.00</h5>
+                        <a href="#">Order Now</a>
+                    </div>
+                    </div>
+                    <div class="box">
+                        <img src="eggplant.jpg">
+                        <div class="infoBx">
+                            <h4>Eggplant Parmesan</h4>
+                            <p>The whole family will love this classic eggplant parmesan! Slices of tender eggplant coated in homemade breadcrumbs, 
+                            and then layered with melted cheeses & rich marinara! </p>
+                            <h5>$12.50</h5>
+                            <a href="#">Order Now</a>
+                        </div>
+                        </div>
+                        <div class="box">
+                            <img src="CARBONARA.jpg">
+                            <div class="infoBx">
+                                <h4>Carbonara Pizza</h4>
+                                <p>If you can't get enough of Rome's famous spaghetti carbonara, 
+                                    then we have a sneaking suspicion you'll love this extra-cheesy pizza version. 
+                                    Comes with a side of peppery arugula dressed with olive oil and lemon juice to cut the richness of the pie!</p>
+                                <h5>$16.00</h5>
+                                <a href="#">Order Now</a>
+                            </div>
+                            </div>
+                            <div class="box">
+                                <img src="chicken_scallopini.jpg">
+                                <div class="infoBx">
+                                    <h4>Chicken Scallopini</h4>
+                                    <p>Thinly sliced chicken scallopini can be cooked in a variety of sauces and flavors. 
+                                    We departed from the lemony-caper piccata herd and went instead for tender mushrooms and a hint of wine, 
+                                    lemon, and broth, capped off with a dash of rich cream: scaloppine ai funghi.</p>
+                                    <h5>$13.20</h5>
+                                    <a href="#">Order Now</a>
+                                </div>
+                                </div>
+            </div>
+        </section>
+
+        <form>
+            <label for="age">Age:</label>
+            <input type="number" id="age" name="age">
+            <br><br>
+            
+            <label for="gender">Gender:</label>
+            <select id="gender" name="gender">
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+            </select>
+            <br><br>
+            
+            <label for="height">Height (in cm):</label>
+            <input type="number" id="height" name="height">
+            <br><br>
+            
+            <label for="weight">Weight (in kg):</label>
+            <input type="number" id="weight" name="weight">
+            <br><br>
+            
+            <label for="activity-level">Activity Level:</label>
+            <select id="activity-level" name="activity-level">
+              <option value="1.2">Sedentary (little or no exercise)</option>
+              <option value="1.375">Lightly Active (light exercise/sports 1-3 days/week)</option>
+              <option value="1.55">Moderately Active (moderate exercise/sports 3-5 days/week)</option>
+              <option value="1.725">Very Active (hard exercise/sports 6-7 days a week)</option>
+              <option value="1.9">Extremely Active (very hard exercise/sports & physical job or 2x training)</option>
+            </select>
+            <br><br>
+            
+            <input type="submit" value="Calculate" id="submit-button">
+          </form>
+          
+          <div id="result">
+            <!-- result will be displayed here -->
+          </div>
+          
+          <script>
+            const submitButton = document.querySelector("#submit-button");
+            const resultDiv = document.querySelector("#result");
+          
+            submitButton.addEventListener("click", function(event) {
+              event.preventDefault();
+          
+              // Get user inputs
+              const age = document.querySelector("#age").value;
+              const gender = document.querySelector("#gender").value;
+              const height = document.querySelector("#height").value;
+              const weight = document.querySelector("#weight").value;
+              const activityLevel = document.querySelector("#activity-level").value;
+          
+              // Calculate BMR (Basal Metabolic Rate)
+              let bmr;
+              if (gender === "male") {
+                bmr = 66 + (13.7 * weight) + (5 * height) - (6.8 * age);
+              } else {
+                bmr = 655 + (9.6 * weight) + (1.8 * height) - (4.7 * age);
+              }
+          
+              // Calculate daily calorie needs
+              const dailyCalorieNeeds = bmr * activityLevel;
+          
+              // Display result
+              resultDiv.innerHTML = `Your daily calorie needs are approximately ${dailyCalorieNeeds.toFixed(2)} calories.`;
+            });
+          </script>
+
+<section class="meal-planning" id="meal-planning">
+    <h2>Allergy Enquiry</h2>
+    <form id="menu-form">
+      <label><input type="checkbox" name="dish" value="Bruschetta">Bruschetta</label><br>
+      <label><input type="checkbox" name="dish" value="Caprese Salad">Caprese Salad</label><br>
+      <label><input type="checkbox" name="dish" value="Margherita Pizza">Margherita Pizza</label><br>
+      <label><input type="checkbox" name="dish" value="Pepperoni Pizza">Pepperoni Pizza</label><br>
+      <label><input type="checkbox" name="dish" value="Spaghetti Bolognese">Spaghetti Bolognese</label><br>
+      <label><input type="checkbox" name="dish" value="Fettuccine Alfredo">Fettuccine Alfredo</label><br>
+      <label><input type="checkbox" name="dish" value="Tiramisu">Tiramisu</label><br>
+      <label><input type="checkbox" name="dish" value="Cannoli">Cannoli</label><br>
+      <button type="submit">Submit</button>
+    </form>
+    <div id="allergy-output"></div>
+    <div id="suggestion-output"></div>
+    <script>
+      const allergies = {
+  Bruschetta: ['gluten'],
+  CapreseSalad: ['milk'],
+  MargheritaPizza: ['gluten', 'milk'],
+  PepperoniPizza: ['gluten', 'milk'],
+  SpaghettiBolognese: ['gluten'],
+  FettuccineAlfredo: ['gluten', 'milk'],
+  Tiramisu: ['eggs', 'milk', 'soy'],
+  Cannoli: ['milk', 'nuts']
+};
+
+const menuForm = document.getElementById('menu-form');
+const allergyOutput = document.getElementById('allergy-output');
+const suggestionOutput = document.getElementById('suggestion-output');
+
+menuForm.addEventListener('submit', (event) => {
+  event.preventDefault();
+  const selectedDishes = Array.from(event.target.elements.dish)
+    .filter((checkbox) => checkbox.checked)
+    .map((checkbox) => checkbox.value);
+  const allergiesList = [];
+  selectedDishes.forEach((dish) => {
+    if (allergies[dish]) {
+      allergies[dish].forEach((allergy) => {
+        if (!allergiesList.includes(allergy)) {
+          allergiesList.push(allergy);
+        }
+      });
+    }
+  });
+  if (allergiesList.length > 0) {
+    allergyOutput.innerHTML = `These dishes contain the following allergens: <ul>${allergiesList.map(allergy => `<li>${allergy}</li>`).join('')}</ul>`;
+  } else {
+    allergyOutput.innerHTML = '';
+  }
+  const safeDishes = Object.keys(allergies).filter((dish) => {
+    const dishAllergies = allergies[dish];
+    return !selectedDishes.includes(dish) && (!dishAllergies || dishAllergies.every((allergy) => !allergiesList.includes(allergy)));
+  });
+  if (safeDishes.length > 0) {
+    suggestionOutput.innerHTML = `Based on your selections and allergies, we suggest trying <b>${safeDishes[0]}</b>. Here is some additional information about this dish:<br><br>${getDishDescription(safeDishes[0])}`;
+  } else {
+    suggestionOutput.textContent = 'Sorry, we cannot make any suggestions based on your selections and allergies.';
+  }
+});
+
+function getDishDescription(dish) {
+  switch (dish) {
+    case 'Bruschetta':
+      return 'Bruschetta is an antipasto (starter dish) from Italy consisting of grilled bread rubbed with garlic and topped with olive oil and salt. You can add toppings such as tomatoes, basil, and cheese to the bread to make it more filling.';
+    case 'CapreseSalad':
+      return 'Caprese Salad is a simple and refreshing salad from Italy consisting of sliced fresh mozzarella, tomatoes, and basil. The salad is typically seasoned with salt, pepper, and olive oil.';
+    case 'MargheritaPizza':
+      return 'Margherita Pizza is a classic pizza from Naples, Italy consisting of tomato sauce, fresh mozzarella cheese, and basil. The pizza is named after Queen Margherita of Savoy, who allegedly preferred this type of pizza.';
+    case 'PepperoniPizza':
+      return 'Pepperoni Pizza is a classic American pizza consisting of tomato sauce, mozzarella cheese, and pepperoni (a type of sausage made from beef and pork).';
+    case 'SpaghettiBolognese':
+      return 'Spaghetti Bolognese is a classic Italian pasta dish consisting of spaghetti noodles in a meat-based sauce (typically made with ground beef, tomato sauce, and herbs). It is often served with grated Parmesan cheese and garlic bread.';
+    case 'FettuccineAlfredo':
+      return 'Fettuccine Alfredo is a pasta dish from Rome, Italy consisting of fettuccine noodles tossed in a creamy sauce made with butter, heavy cream, and Parmesan cheese. It is typically seasoned with black pepper and served hot.';
+    case 'Tiramisu':
+      return 'Tiramisu is a popular Italian dessert consisting of layers of ladyfingers (a type of sweet sponge cake), espresso, and mascarpone cheese. It is typically dusted with cocoa powder and served chilled.';
+    case 'Cannoli':
+      return 'Cannoli are traditional Italian pastries originating from Sicily. They consist of tube-shaped shells made of fried pastry dough, filled with a sweet, creamy filling usually containing ricotta cheese, and dusted with powdered sugar or cocoa powder.';
+    default:
+      return '';
+  }
+}
+
+
+    </script>
+
+</section>
+
+        <section class="about" id="about">
+            <div class="infoBx">
+                <h2>About</h2>
+                <p>Gino's Italian Restaurant bridges the traditional with the contemporary, bringing live-fire cooking, 
+                housemade pasta, and a robust Italian wine list to the heart of Phoenix</p>
+                <a href ="#">View More</a>
+            </div>
+            <img src="About us.jpeg">
+        </section>
+
+        <section class="imgGal" id="gallery">
+            <div class="box a">
+                <img src="dough.jpeg">
+            </div>
+            <div class="box b">
+                <img src="gallery1.jpg">
+            </div>
+            <div class="box c">
+                <img src="gallery2.jpeg">
+            </div>
+            <div class="box d">
+                <img src="calzone.webp">
+            </div>
+            <div class="box e">
+                <img src="cannoli.jpeg">
+            </div>
+            <div class="box f">
+                <img src="Gooey-gnocchi-bake-recipe-1400x919-6cfa2c6c-a811-406f-bf3d-3e9bf2e75120-0-1400x919.jpeg">
+            </div>
+            <div class="box g">
+                <img src="StockSnap_VSPD1OLMRI.jpeg.crdownload">
+            </div>
+            <div class="box h">
+                <img src="italianchoppedsalad.jpeg">
+            </div>
+            <div class="box i">
+                <img src="the-best-homemade-margherita-pizza-1-4.jpeg">
+            </div>
+            <div class="box j">
+                <img src="ItalianCoffee-89742698-56a1728d5f9b58b7d0bf5ee9.jpeg">
+            </div>
+            <div class="box k">
+                <img src="poo.jpeg">
+            </div>
+        </section>
+
+        <section class="contact" id="contact">
+            <div class="content">
+                <h2>Contact Us</h2>
+                </div>
+                <div class="container">
+                    <div class="contactInfo">
+                        <div class="box">
+                            <div class="icon"><i class="fas fa-map-marker"></i></div>
+                            <div class="text">
+                                <h3>Location:</h3>
+                                <p>4433 N 7th St, Phoenix, AZ 85014,<br>534001</p>
+                            </div> 
+                        </div>
+                        <div class="box">
+                            <div class="icon"><i class="fas fa-clock"></i></div>
+                            <div class="text">
+                                <h3>Opening Hours:</h3>
+                                <p>Saturday-Friday<br>12:00PM-11AM</p>
+                                <p>Sunday<br>Closed</p>
+                            </div> 
+                        </div>
+                        <div class="box">
+                            <div class="icon"><i class="fas fa-envelope"></i></div>
+                            <div class="text">
+                                <h3>Email:</h3>
+                                <p>info@Ginositalianrestaurant.com</p>
+                        </div>
+                    </div>
+                    <div class="box">
+                        <div class="icon"><i class="fas fa-phone"></i></div>
+                        <div class="text">
+                            <h3>Call:</h3>
+                            <p>6024358013</p>
+                    </div>
+                </div>
+                </div>
+                <div class="contactForm">
+                    <form>
+                        <div class="inputBx">
+                            <input type="text" name="" required="required">
+                            <span>Full Name</span>
+                        </div>
+                        <div class="inputBx">
+                            <input type="text" name="" required="required">
+                            <span>Email</span>
+                        </div>
+                        <div class="inputBx">
+                            <textarea required="required"></textarea>
+                            <span>Type your message</span>
+                        </div>
+                        <div class="inputBx">
+                            <input type="submit" name="" value="send">
+                        </div>
+                    </form>
+                </div>
+                </div>
+
+        </section>
+
+            <div class="container">
+              <div class="header">
+                <h1>Gino's Italian Restaurant</h1>
+              </div>
+              <div class="nav">
+                <a href="#">Home</a>
+                <a href="#">Menu</a>
+                <a href="#">Contact</a>
+              </div>
+              <div class="signup-login-section">
+                <h2>Sign Up/Login</h2>
+                <div class="signup-section">
+                  <form action="connect.php" method="POST">
+                    <input type="text" name="username" placeholder="Username">
+                    <input type="email" name="email" placeholder="Email">
+                    <input type="password" name="password" placeholder="Password">
+                    <button type="submit" name="signup_submit">Sign Up</button>
+                  </form>
+                </div>              
+                <div class="login-section">
+                  <form id="login-form">
+                    <input type="text" placeholder="Username">
+                    <input type="password" placeholder="Password">
+                    <button type="submit">Login</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+            <script src="app.js"></script>
+
+
+
+        <footer class="footer">
+            <div class="footer-left">
+                <h1>Gino's Italian Restaurant<span>.</span></h1>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
+                    ed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, 
+                    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                <br>
+                <div class="socials">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-dribbble"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                    <a href="#"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+            <ul class="footer-right">
+                <li class="projects">
+                    <h2>More</h2>
+                    
+                    <ul class="box">
+                        <li><a href="#">Catering</a></li>
+                        <li><a href="#">Donations</a></li>
+                        <li><a href="#">Parternships</a></li>
+                        <li><a href="#">Reservations</a></li>
+                    </ul>
+                </li>
+                <li class="features">
+                    <h2>Locations</h2>
+                    <ul class="box">
+                         <li><a href="#">Phoenix</a></li>
+                        <li><a href="#">Tempe</a></li>
+                        <li><a href="#">Mesa</a></li>
+                        <li><a href="#">Glendale</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </footer>
+
+        <script type="text/javascript">
+            window.addEventListener('scroll',function(){ 
+                var header = document.querySelector('header');
+                header.classList.toggle('sticky',window.scrollY > 0);
+            });
+
+            function toggleMenu(){
+                var menuToggle = document.querySelector('.toggle');
+                var menu = document.querySelector('.menu');
+                menuToggle.classList.toggle('active'); 
+                menu.classList.toggle('active');
+            }
+        </script>
+        </main>
+        </section>
+        </body>
+</html>
